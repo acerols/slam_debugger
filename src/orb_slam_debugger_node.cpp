@@ -76,8 +76,6 @@ void orb_slam_debugger::debug_image_callback_(const sensor_msgs::msg::Image::Sha
 {
     
     image_ptr_ = image;
-    sensor_msgs::msg::Image save = *image;
-    save_image_= cv_bridge::toCvCopy(image, "bgr8")->image;
     
     image_time_sec_ = int32_t(ros_clock_.now().seconds());
     image_time_nanosec_ = ros_clock_.now().nanoseconds();
@@ -96,8 +94,6 @@ void orb_slam_debugger::save_image_callback_()
 
     if(image_time_sec_ != pre_image_time_sec 
         || image_time_nanosec_ != pre_image_time_nanosec){
-
-        RCLCPP_INFO(this->get_logger(), "save_image");
 
         cv::Mat save_image = cv_bridge::toCvCopy(this->image_ptr_, "bgr8")->image;
         std::string filename = (image_path_ + "debug_image") + std::to_string(image_num_);
